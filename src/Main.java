@@ -93,6 +93,15 @@ public class Main {
                     deleteContact(selectedAddressBook, scanner);
                     break;
 
+                case 5:
+                    viewPersonsByCity(selectedAddressBook, scanner);
+                    break;
+    
+                case 6:
+                    viewPersonsByState(selectedAddressBook, scanner);
+                    break;
+    
+
                 case 4:
                     selectedAddressBook.display();
                     break;
@@ -113,6 +122,8 @@ public class Main {
         System.out.println("2. Edit an existing contact");
         System.out.println("3. Delete a contact");
         System.out.println("4. Display all contacts");
+        System.out.println("5. View persons by city");
+        System.out.println("6. View persons by state");
         System.out.println("0. Exit");
     }
 
@@ -184,6 +195,40 @@ public class Main {
         }
     } else {
         System.out.println("No contacts found in the specified city.");
+    }
+}
+
+private static void viewPersonsByCity(Address selectedAddressBook, Scanner scanner) {
+    System.out.print("Enter the city to view persons: ");
+    String cityToView = scanner.nextLine();
+
+    List<Contact> contactsInCity = selectedAddressBook.getContactsByCity(cityToView);
+
+    if (!contactsInCity.isEmpty()) {
+        System.out.println("Persons in " + cityToView + ":");
+        for (Contact contact : contactsInCity) {
+            System.out.println(contact);
+            System.out.println();
+        }
+    } else {
+        System.out.println("No persons found in the specified city.");
+    }
+}
+
+private static void viewPersonsByState(Address selectedAddressBook, Scanner scanner) {
+    System.out.print("Enter the state to view persons: ");
+    String stateToView = scanner.nextLine();
+
+    List<Contact> contactsInState = selectedAddressBook.getContactsByState(stateToView);
+
+    if (!contactsInState.isEmpty()) {
+        System.out.println("Persons in " + stateToView + ":");
+        for (Contact contact : contactsInState) {
+            System.out.println(contact);
+            System.out.println();
+        }
+    } else {
+        System.out.println("No persons found in the specified state.");
     }
 }
 

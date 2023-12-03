@@ -54,6 +54,7 @@ public class Contact {
         return email;
     }
 
+
     public void updateContact(String address, String city, String state, String zip, String phone, String email) {
         this.address = address;
         this.city = city;

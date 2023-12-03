@@ -1,16 +1,23 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
 public class Address {
     private String name;
     private Set<Contact> contacts;
+    private Map<String, List<Contact>> cityDictionary;
+    private Map<String, List<Contact>> stateDictionary;
+
 
     public Address(String name) {
         this.name = name;
         this.contacts = new HashSet<>();
+        this.cityDictionary = new HashMap<>();
+        this.stateDictionary = new HashMap<>();
     }
 
     public String getName() {
@@ -24,6 +31,10 @@ public class Address {
         }
 
         contacts.add(contact);
+        cityDictionary.computeIfAbsent(contact.getCity(), k -> new ArrayList<>()).add(contact);
+
+        stateDictionary.computeIfAbsent(contact.getState(), k -> new ArrayList<>()).add(contact);
+
         System.out.println("Contact added successfully to " + name);
     }
 
@@ -70,6 +81,12 @@ public class Address {
                 contacts.remove(contact);
                 contacts.add(updatedContact);
 
+                 cityDictionary.get(contact.getCity()).remove(contact);
+                 cityDictionary.computeIfAbsent(contact.getCity(), k -> new ArrayList<>()).add(contact);
+ 
+                 stateDictionary.get(contact.getState()).remove(contact);
+                 stateDictionary.computeIfAbsent(contact.getState(), k -> new ArrayList<>()).add(contact);
+
                 System.out.println("Contact updated successfully in " + name + " address book.\n");
                 return;
             }
@@ -94,5 +111,13 @@ public class Address {
         }
 
         return searchResults;
+    }
+
+    public List<Contact> getContactsByCity(String city) {
+        return cityDictionary.getOrDefault(city, new ArrayList<>());
+    }
+
+    public List<Contact> getContactsByState(String state) {
+        return stateDictionary.getOrDefault(state, new ArrayList<>());
     }
 }
