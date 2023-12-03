@@ -91,6 +91,10 @@ public class Main {
 
                 case 3:
                     deleteContact(selectedAddressBook, scanner);
+                    break;   
+
+                case 4:
+                    selectedAddressBook.display();
                     break;
 
                 case 5:
@@ -100,11 +104,10 @@ public class Main {
                 case 6:
                     viewPersonsByState(selectedAddressBook, scanner);
                     break;
-    
 
-                case 4:
-                    selectedAddressBook.display();
-                    break;
+                case 7:
+                    displaySortedContacts(selectedAddressBook);
+                    break;    
 
                 case 0:
                     System.out.println("Exiting to the main menu.");
@@ -124,6 +127,7 @@ public class Main {
         System.out.println("4. Display all contacts");
         System.out.println("5. View persons by city");
         System.out.println("6. View persons by state");
+        System.out.println("7. Display sorted contacts");
         System.out.println("0. Exit");
     }
 
@@ -237,6 +241,10 @@ private static void viewPersonsByState(Address selectedAddressBook, Scanner scan
     } else {
         System.out.println("No persons found in the specified state.");
     }
+}
+
+private static void displaySortedContacts(Address selectedAddressBook) {
+    selectedAddressBook.displaySorted();
 }
 
 }

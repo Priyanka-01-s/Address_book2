@@ -1,6 +1,6 @@
 import java.util.Objects;
 
-public class Contact {
+public class Contact implements Comparable<Contact> {
     private String fname;
     private String lname;
     private String address;
@@ -65,6 +65,16 @@ public class Contact {
     }
 
     @Override
+    public int compareTo(Contact other) {
+        // Compare by last name, then first name
+        int result = lname.compareToIgnoreCase(other.getLname());
+        if (result == 0) {
+            result = fname.compareToIgnoreCase(other.getFname());
+        }
+        return result;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
@@ -84,5 +94,7 @@ public class Contact {
         return String.format("NAME : %s %s\nADDRESS : %s\nCITY : %s\nSTATE :%s\nZIP : %s\nPHONE NUMBER : %s\nEMAIL : %s\n",
                              fname, lname, address, city, state, zip, phone, email);
     }
+
+    
 }
 

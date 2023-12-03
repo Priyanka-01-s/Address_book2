@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -135,5 +136,21 @@ public class Address {
 
     public int getCountByState(String state) {
         return stateCount.getOrDefault(state, 0);
+    }
+
+    public void displaySorted() {
+        if (contacts.isEmpty()) {
+            System.out.println("No contacts in " + name + " the address book");
+        } else {
+            System.out.println(name + " Address book updated and sorted alphabetically by name:\n");
+
+            List<Contact> sortedContacts = new ArrayList<>(contacts);
+            Collections.sort(sortedContacts);
+
+            for (Contact c : sortedContacts) {
+                System.out.println(c);
+                System.out.println();
+            }
+        }
     }
 }
