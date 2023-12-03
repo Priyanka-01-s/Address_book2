@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -21,6 +22,11 @@ public class Main {
                     operateOnExistingAddressBook(addressBookManager, scanner);
                     break;
 
+                case 3:
+                    searchByCity(addressBookManager, scanner);
+                    break;
+                
+
                 case 0:
                     System.out.println("---------THANK YOU FOR USING ADDRESS BOOK---------");
                     break;
@@ -38,12 +44,15 @@ public class Main {
         System.out.println("Choose an option:");
         System.out.println("1. Create a new address book");
         System.out.println("2. Operate on an existing address book");
+        System.out.println("3. Search for a person by city");
         System.out.println("0. Exit");
     }
 
     private static int getUserChoice(Scanner scanner) {
         System.out.print("Enter your choice: ");
-        return scanner.nextInt();
+        int choice = scanner.nextInt();
+        scanner.nextLine(); 
+        return choice;
     }
 
     private static void createAddressBook(AddressManager addressBookManager, Scanner scanner) {
@@ -160,4 +169,22 @@ public class Main {
 
         selectedAddressBook.deleteAddress(delFName, delLName);
     }
+
+    private static void searchByCity(AddressManager addressBookManager, Scanner scanner) {
+    System.out.print("Enter the city to search for: ");
+    String cityToSearch = scanner.nextLine();
+
+    List<Contact> searchResults = addressBookManager.searchByCityOrState(cityToSearch);
+
+    if (!searchResults.isEmpty()) {
+        System.out.println("Search Results in " + cityToSearch + ":");
+        for (Contact contact : searchResults) {
+            System.out.println(contact);
+            System.out.println();
+        }
+    } else {
+        System.out.println("No contacts found in the specified city.");
+    }
+}
+
 }

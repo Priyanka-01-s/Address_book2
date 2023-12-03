@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 class AddressManager {
@@ -15,6 +17,27 @@ class AddressManager {
         } else {
             System.out.println("Address with " + name + " already exists.");
         }
+    }
+
+    public void displayAllAddressBooks() {
+        if (addressBookManager.isEmpty()) {
+            System.out.println("No address books available.");
+        } else {
+            System.out.println("List of Address Books:");
+            addressBookManager.keySet().forEach(System.out::println);
+        }
+    }
+
+
+     public List<Contact> searchByCityOrState(String cityOrState) {
+        List<Contact> searchResults = new ArrayList<>();
+
+        for (Address addressBook : addressBookManager.values()) {
+            List<Contact> contacts = addressBook.searchByCityOrState(cityOrState);
+            searchResults.addAll(contacts);
+        }
+
+        return searchResults;
     }
 
     public Address getAddress(String name) {

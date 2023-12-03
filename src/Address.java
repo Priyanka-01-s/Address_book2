@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -79,5 +81,18 @@ public class Address {
         contacts.removeIf(contact ->
                 contact.getFname().equalsIgnoreCase(firstName) && contact.getLname().equalsIgnoreCase(lastName));
         System.out.println("Contact deleted successfully from " + name);
+ 
+    }
+
+    public List<Contact> searchByCityOrState(String cityOrState) {
+        List<Contact> searchResults = new ArrayList<>();
+
+        for (Contact contact : contacts) {
+            if (contact.getCity().equalsIgnoreCase(cityOrState) || contact.getState().equalsIgnoreCase(cityOrState)) {
+                searchResults.add(contact);
+            }
+        }
+
+        return searchResults;
     }
 }
