@@ -204,6 +204,9 @@ private static void viewPersonsByCity(Address selectedAddressBook, Scanner scann
 
     List<Contact> contactsInCity = selectedAddressBook.getContactsByCity(cityToView);
 
+    int count = selectedAddressBook.getCountByCity(cityToView);
+
+    System.out.println("Count of persons in " + cityToView + ": " + count);
     if (!contactsInCity.isEmpty()) {
         System.out.println("Persons in " + cityToView + ":");
         for (Contact contact : contactsInCity) {
@@ -221,8 +224,12 @@ private static void viewPersonsByState(Address selectedAddressBook, Scanner scan
 
     List<Contact> contactsInState = selectedAddressBook.getContactsByState(stateToView);
 
+    int count = selectedAddressBook.getCountByState(stateToView);
+
+    System.out.println("Count of persons in " + stateToView + ": " + count);
+
     if (!contactsInState.isEmpty()) {
-        System.out.println("Persons in " + stateToView + ":");
+        System.out.println("\nPersons in " + stateToView + ":");
         for (Contact contact : contactsInState) {
             System.out.println(contact);
             System.out.println();

@@ -11,6 +11,8 @@ public class Address {
     private Set<Contact> contacts;
     private Map<String, List<Contact>> cityDictionary;
     private Map<String, List<Contact>> stateDictionary;
+    private Map<String, Integer> cityCount;
+    private Map<String, Integer> stateCount;
 
 
     public Address(String name) {
@@ -18,6 +20,8 @@ public class Address {
         this.contacts = new HashSet<>();
         this.cityDictionary = new HashMap<>();
         this.stateDictionary = new HashMap<>();
+        this.cityCount = new HashMap<>();
+        this.stateCount = new HashMap<>();
     }
 
     public String getName() {
@@ -34,6 +38,10 @@ public class Address {
         cityDictionary.computeIfAbsent(contact.getCity(), k -> new ArrayList<>()).add(contact);
 
         stateDictionary.computeIfAbsent(contact.getState(), k -> new ArrayList<>()).add(contact);
+
+        cityCount.put(contact.getCity(), cityCount.getOrDefault(contact.getCity(), 0) + 1);
+
+        stateCount.put(contact.getState(), stateCount.getOrDefault(contact.getState(), 0) + 1);
 
         System.out.println("Contact added successfully to " + name);
     }
@@ -119,5 +127,13 @@ public class Address {
 
     public List<Contact> getContactsByState(String state) {
         return stateDictionary.getOrDefault(state, new ArrayList<>());
+    }
+
+    public int getCountByCity(String city) {
+        return cityCount.getOrDefault(city, 0);
+    }
+
+    public int getCountByState(String state) {
+        return stateCount.getOrDefault(state, 0);
     }
 }
