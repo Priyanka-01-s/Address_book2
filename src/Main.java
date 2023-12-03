@@ -9,24 +9,16 @@ public class Main {
 
         int choice;
         do {
-            System.out.println("Choose an option:");
-
-            System.out.println("1. Create a new address book");
-            System.out.println("2. Operate on the existing address book");
-            System.out.println("0. Exit");
-
-            choice = scanner.nextInt();
-            scanner.nextLine();
+            printMainMenu();
+            choice = getUserChoice(scanner);
 
             switch (choice) {
                 case 1:
-                    System.out.println("Enter the name of the new address book");
-                    String newBookName = scanner.nextLine();
-                    addressBookManager.createAddressBook(newBookName);
+                    createAddressBook(addressBookManager, scanner);
                     break;
 
                 case 2:
-                    operateOnAddressBook(addressBookManager, scanner);
+                    operateOnExistingAddressBook(addressBookManager, scanner);
                     break;
 
                 case 0:
@@ -42,17 +34,27 @@ public class Main {
         scanner.close();
     }
 
-    private static void operateOnAddressBook(AddressManager addressBookManager, Scanner scanner) {
-        System.out.println("---------ADDRESS BOOK OPERATIONS---------");
-        // if (addressBookManager.getAddress().isEmpty()) {
-        //     System.out.println("No contacts in the address book.");
-        //     return;
-        // }
-        // System.out.println("Existing address books:");
-        // addressBookManager.getAddress().keySet().forEach(System.out::println);
+    private static void printMainMenu() {
+        System.out.println("Choose an option:");
+        System.out.println("1. Create a new address book");
+        System.out.println("2. Operate on an existing address book");
+        System.out.println("0. Exit");
+    }
 
+    private static int getUserChoice(Scanner scanner) {
+        System.out.print("Enter your choice: ");
+        return scanner.nextInt();
+    }
+
+    private static void createAddressBook(AddressManager addressBookManager, Scanner scanner) {
+        System.out.print("Enter the name of the new address book: ");
+        String newBookName = scanner.next();
+        addressBookManager.createAddressBook(newBookName);
+    }
+
+    private static void operateOnExistingAddressBook(AddressManager addressBookManager, Scanner scanner) {
         System.out.print("Enter the name of the address book to operate on: ");
-        String addressBookName = scanner.nextLine();
+        String addressBookName = scanner.next();
 
         Address selectedAddressBook = addressBookManager.getAddress(addressBookName);
 
@@ -66,15 +68,8 @@ public class Main {
     private static void operateOnAddressBook(Address selectedAddressBook, Scanner scanner) {
         int choice;
         do {
-            System.out.println("Choose an option for " + selectedAddressBook.getName() + " address book:");
-            System.out.println("1. Add a new contact");
-            System.out.println("2. Edit an existing contact");
-            System.out.println("3. Delete a contact");
-            System.out.println("4. Display all contacts");
-            System.out.println("0. Exit");
-
-            choice = scanner.nextInt();
-            scanner.nextLine();
+            printAddressBookMenu(selectedAddressBook.getName());
+            choice = getUserChoice(scanner);
 
             switch (choice) {
                 case 1:
@@ -101,6 +96,15 @@ public class Main {
                     System.out.println("Invalid choice. Please enter a valid option.");
             }
         } while (choice != 0);
+    }
+
+    private static void printAddressBookMenu(String addressBookName) {
+        System.out.println("---------ADDRESS BOOK OPERATIONS - " + addressBookName + "---------");
+        System.out.println("1. Add a new contact");
+        System.out.println("2. Edit an existing contact");
+        System.out.println("3. Delete a contact");
+        System.out.println("4. Display all contacts");
+        System.out.println("0. Exit");
     }
 
     private static void addContact(Address selectedAddressBook, Scanner scanner) {
@@ -130,6 +134,7 @@ public class Main {
 
         Contact newContact = new Contact(fname, lname, addressStr, city, state, zip, phone, email);
         selectedAddressBook.addAddress(newContact);
+        
     }
 
     private static void editContact(Address selectedAddressBook, Scanner scanner) {
@@ -145,7 +150,7 @@ public class Main {
     }
 
     private static void deleteContact(Address selectedAddressBook, Scanner scanner) {
-        System.out.println("Deleting an existing contact:");
+       System.out.println("Deleting an existing contact:");
 
         System.out.print("Enter first name of the contact to delete: ");
         String delFName = scanner.nextLine();
@@ -155,5 +160,4 @@ public class Main {
 
         selectedAddressBook.deleteAddress(delFName, delLName);
     }
-    
 }
