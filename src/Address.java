@@ -1,14 +1,14 @@
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
-class Address {
-
+public class Address {
     private String name;
-    private ArrayList<Contact> contacts;
+    private Set<Contact> contacts;
 
     public Address(String name) {
         this.name = name;
-        this.contacts = new ArrayList<>();
+        this.contacts = new HashSet<>();
     }
 
     public String getName() {
@@ -16,8 +16,17 @@ class Address {
     }
 
     public void addAddress(Contact contact) {
+        if (isDuplicate(contact)) {
+            System.out.println("Duplicate entry! Contact with the same name already exists in " + name);
+            return;  
+        }
+
         contacts.add(contact);
         System.out.println("Contact added successfully to " + name);
+    }
+
+    private boolean isDuplicate(Contact contact) {
+        return contacts.contains(contact);
     }
 
     public void display() {
@@ -55,25 +64,20 @@ class Address {
                 System.out.print("Enter email: ");
                 String email = scanner.nextLine();
 
-                contact.updateContact(address, city, state, zip, phone, email);
+                Contact updatedContact = new Contact(firstName, lastName, address, city, state, zip, phone, email);
+                contacts.remove(contact);
+                contacts.add(updatedContact);
+
                 System.out.println("Contact updated successfully in " + name + " address book.\n");
                 return;
-            }else{
-                System.out.println("CONTACT NOT AVAILABLE in " + name);
             }
         }
-        
+        System.out.println("CONTACT NOT AVAILABLE in " + name);
     }
 
     public void deleteAddress(String firstName, String lastName) {
-        for (Contact contact : contacts) {
-            if (contact.getFname().equalsIgnoreCase(firstName) && contact.getLname().equalsIgnoreCase(lastName)) {
-                contacts.remove(contact);
-                System.out.println("Contact deleted successfully from " + name);
-                return;
-            } else {
-                System.out.println("\nCONTACT NOT AVAILABLE IN " + name);
-            }
-        }
+        contacts.removeIf(contact ->
+                contact.getFname().equalsIgnoreCase(firstName) && contact.getLname().equalsIgnoreCase(lastName));
+        System.out.println("Contact deleted successfully from " + name);
     }
 }

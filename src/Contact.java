@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Contact {
     private String fname;
     private String lname;
@@ -61,10 +63,25 @@ public class Contact {
         this.email = email;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        Contact contact = (Contact) obj;
+        return Objects.equals(getFname(), contact.getFname()) &&
+                Objects.equals(getLname(), contact.getLname());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFname(), getLname());
+    }
+
+    @Override
     public String toString() {
-        return String.format(
-                "NAME : %s %s\nADDRESS : %s\nCITY : %s\nSTATE :%s\nZIP : %s\nPHONE NUMBER : %s\nEMAIL : %s\n",
-                fname, lname, address, city, state, zip, phone, email);
+        return String.format("NAME : %s %s\nADDRESS : %s\nCITY : %s\nSTATE :%s\nZIP : %s\nPHONE NUMBER : %s\nEMAIL : %s\n",
+                             fname, lname, address, city, state, zip, phone, email);
     }
 }
 
