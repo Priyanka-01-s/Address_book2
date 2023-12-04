@@ -39,7 +39,7 @@ public class Contact implements Comparable<Contact> {
     }
 
     public String getState() {
-        return zip;
+        return state;
     }
 
     public String getZip() {
@@ -66,7 +66,6 @@ public class Contact implements Comparable<Contact> {
 
     @Override
     public int compareTo(Contact other) {
-        // Compare by last name, then first name
         int result = lname.compareToIgnoreCase(other.getLname());
         if (result == 0) {
             result = fname.compareToIgnoreCase(other.getFname());

@@ -109,6 +109,19 @@ public class Main {
                     displaySortedContacts(selectedAddressBook);
                     break;    
 
+                case 8:
+                selectedAddressBook.sortByCity();
+                break;
+
+            case 9:
+                selectedAddressBook.sortByState();
+                break;
+
+            case 10:
+                selectedAddressBook.sortByZip();
+                break;
+
+
                 case 0:
                     System.out.println("Exiting to the main menu.");
                     break;
@@ -128,6 +141,9 @@ public class Main {
         System.out.println("5. View persons by city");
         System.out.println("6. View persons by state");
         System.out.println("7. Display sorted contacts");
+        System.out.println("8. Sort by City");
+        System.out.println("9. Sort by State");
+        System.out.println("10. Sort by Zip");
         System.out.println("0. Exit");
     }
 
@@ -224,7 +240,7 @@ private static void viewPersonsByCity(Address selectedAddressBook, Scanner scann
 
 private static void viewPersonsByState(Address selectedAddressBook, Scanner scanner) {
     System.out.print("Enter the state to view persons: ");
-    String stateToView = scanner.nextLine();
+    String stateToView = scanner.nextLine();  
 
     List<Contact> contactsInState = selectedAddressBook.getContactsByState(stateToView);
 
@@ -242,6 +258,7 @@ private static void viewPersonsByState(Address selectedAddressBook, Scanner scan
         System.out.println("No persons found in the specified state.");
     }
 }
+
 
 private static void displaySortedContacts(Address selectedAddressBook) {
     selectedAddressBook.displaySorted();
