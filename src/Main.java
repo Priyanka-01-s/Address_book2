@@ -25,7 +25,6 @@ public class Main {
                 case 3:
                     searchByCity(addressBookManager, scanner);
                     break;
-                
 
                 case 0:
                     System.out.println("---------THANK YOU FOR USING ADDRESS BOOK---------");
@@ -51,7 +50,7 @@ public class Main {
     private static int getUserChoice(Scanner scanner) {
         System.out.print("Enter your choice: ");
         int choice = scanner.nextInt();
-        scanner.nextLine(); 
+        scanner.nextLine();
         return choice;
     }
 
@@ -91,7 +90,7 @@ public class Main {
 
                 case 3:
                     deleteContact(selectedAddressBook, scanner);
-                    break;   
+                    break;
 
                 case 4:
                     selectedAddressBook.display();
@@ -100,14 +99,14 @@ public class Main {
                 case 5:
                     viewPersonsByCity(selectedAddressBook, scanner);
                     break;
-    
+
                 case 6:
                     viewPersonsByState(selectedAddressBook, scanner);
                     break;
 
                 case 7:
                     displaySortedContacts(selectedAddressBook);
-                    break;    
+                    break;
 
                 case 0:
                     System.out.println("Exiting to the main menu.");
@@ -132,33 +131,37 @@ public class Main {
     }
 
     private static void addContact(Address selectedAddressBook, Scanner scanner) {
-        System.out.print("Enter first name: ");
-        String fname = scanner.nextLine();
+        try {
+            System.out.print("Enter first name: ");
+            String fname = scanner.nextLine();
 
-        System.out.print("Enter last name: ");
-        String lname = scanner.nextLine();
+            System.out.print("Enter last name: ");
+            String lname = scanner.nextLine();
 
-        System.out.print("Enter address: ");
-        String addressStr = scanner.nextLine();
+            System.out.print("Enter address: ");
+            String addressStr = scanner.nextLine();
 
-        System.out.print("Enter city: ");
-        String city = scanner.nextLine();
+            System.out.print("Enter city: ");
+            String city = scanner.nextLine();
 
-        System.out.print("Enter state: ");
-        String state = scanner.nextLine();
+            System.out.print("Enter state: ");
+            String state = scanner.nextLine();
 
-        System.out.print("Enter zip: ");
-        String zip = scanner.nextLine();
+            System.out.print("Enter zip: ");
+            String zip = scanner.nextLine();
 
-        System.out.print("Enter phone number: ");
-        String phone = scanner.nextLine();
+            System.out.print("Enter phone number: ");
+            String phone = scanner.nextLine();
 
-        System.out.print("Enter email: ");
-        String email = scanner.nextLine();
+            System.out.print("Enter email: ");
+            String email = scanner.nextLine();
 
-        Contact newContact = new Contact(fname, lname, addressStr, city, state, zip, phone, email);
-        selectedAddressBook.addAddress(newContact);
-        
+            Contact newContact = new Contact(fname, lname, addressStr, city, state, zip, phone, email);
+            selectedAddressBook.addAddress(newContact);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+            System.out.println("Please enter valid details as per the regex rules.");
+        }
     }
 
     private static void editContact(Address selectedAddressBook, Scanner scanner) {
@@ -174,7 +177,7 @@ public class Main {
     }
 
     private static void deleteContact(Address selectedAddressBook, Scanner scanner) {
-       System.out.println("Deleting an existing contact:");
+        System.out.println("Deleting an existing contact:");
 
         System.out.print("Enter first name of the contact to delete: ");
         String delFName = scanner.nextLine();
@@ -186,65 +189,65 @@ public class Main {
     }
 
     private static void searchByCity(AddressManager addressBookManager, Scanner scanner) {
-    System.out.print("Enter the city to search for: ");
-    String cityToSearch = scanner.nextLine();
+        System.out.print("Enter the city to search for: ");
+        String cityToSearch = scanner.nextLine();
 
-    List<Contact> searchResults = addressBookManager.searchByCityOrState(cityToSearch);
+        List<Contact> searchResults = addressBookManager.searchByCityOrState(cityToSearch);
 
-    if (!searchResults.isEmpty()) {
-        System.out.println("Search Results in " + cityToSearch + ":");
-        for (Contact contact : searchResults) {
-            System.out.println(contact);
-            System.out.println();
+        if (!searchResults.isEmpty()) {
+            System.out.println("Search Results in " + cityToSearch + ":");
+            for (Contact contact : searchResults) {
+                System.out.println(contact);
+                System.out.println();
+            }
+        } else {
+            System.out.println("No contacts found in the specified city.");
         }
-    } else {
-        System.out.println("No contacts found in the specified city.");
     }
-}
 
-private static void viewPersonsByCity(Address selectedAddressBook, Scanner scanner) {
-    System.out.print("Enter the city to view persons: ");
-    String cityToView = scanner.nextLine();
+    private static void viewPersonsByCity(Address selectedAddressBook, Scanner scanner) {
+        System.out.print("Enter the city to view persons: ");
+        String cityToView = scanner.nextLine();
 
-    List<Contact> contactsInCity = selectedAddressBook.getContactsByCity(cityToView);
+        List<Contact> contactsInCity = selectedAddressBook.getContactsByCity(cityToView);
 
-    int count = selectedAddressBook.getCountByCity(cityToView);
+        int count = selectedAddressBook.getCountByCity(cityToView);
 
-    System.out.println("Count of persons in " + cityToView + ": " + count);
-    if (!contactsInCity.isEmpty()) {
-        System.out.println("Persons in " + cityToView + ":");
-        for (Contact contact : contactsInCity) {
-            System.out.println(contact);
-            System.out.println();
+        System.out.println("Count of persons in " + cityToView + ": " + count);
+        if (!contactsInCity.isEmpty()) {
+            System.out.println("Persons in " + cityToView + ":");
+            for (Contact contact : contactsInCity) {
+                System.out.println(contact);
+                System.out.println();
+            }
+        } else {
+            System.out.println("No persons found in the specified city.");
         }
-    } else {
-        System.out.println("No persons found in the specified city.");
     }
-}
 
-private static void viewPersonsByState(Address selectedAddressBook, Scanner scanner) {
-    System.out.print("Enter the state to view persons: ");
-    String stateToView = scanner.nextLine();
+    private static void viewPersonsByState(Address selectedAddressBook, Scanner scanner) {
+        System.out.print("Enter the state to view persons: ");
+        String stateToView = scanner.nextLine();
 
-    List<Contact> contactsInState = selectedAddressBook.getContactsByState(stateToView);
+        List<Contact> contactsInState = selectedAddressBook.getContactsByState(stateToView);
 
-    int count = selectedAddressBook.getCountByState(stateToView);
+        int count = selectedAddressBook.getCountByState(stateToView);
 
-    System.out.println("Count of persons in " + stateToView + ": " + count);
+        System.out.println("Count of persons in " + stateToView + ": " + count);
 
-    if (!contactsInState.isEmpty()) {
-        System.out.println("\nPersons in " + stateToView + ":");
-        for (Contact contact : contactsInState) {
-            System.out.println(contact);
-            System.out.println();
+        if (!contactsInState.isEmpty()) {
+            System.out.println("\nPersons in " + stateToView + ":");
+            for (Contact contact : contactsInState) {
+                System.out.println(contact);
+                System.out.println();
+            }
+        } else {
+            System.out.println("No persons found in the specified state.");
         }
-    } else {
-        System.out.println("No persons found in the specified state.");
     }
-}
 
-private static void displaySortedContacts(Address selectedAddressBook) {
-    selectedAddressBook.displaySorted();
-}
+    private static void displaySortedContacts(Address selectedAddressBook) {
+        selectedAddressBook.displaySorted();
+    }
 
 }

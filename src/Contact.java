@@ -11,7 +11,7 @@ public class Contact implements Comparable<Contact> {
     private String email;
 
     public Contact(String fname, String lname, String address, String city, String state, String zip, String phone,
-                    String email) {
+            String email) {
         this.fname = fname;
         this.lname = lname;
         this.address = address;
@@ -20,6 +20,18 @@ public class Contact implements Comparable<Contact> {
         this.state = state;
         this.phone = phone;
         this.email = email;
+
+        if (!isValidName(fname) || !isValidName(lname)) {
+            throw new IllegalArgumentException("Invalid name format");
+        }
+
+        if (!isValidPhone(phone)) {
+            throw new IllegalArgumentException("Invalid phone number format");
+        }
+
+        if (!isValidEmail(email)) {
+            throw new IllegalArgumentException("Invalid email format");
+        }
     }
 
     public String getFname() {
@@ -39,7 +51,7 @@ public class Contact implements Comparable<Contact> {
     }
 
     public String getState() {
-        return zip;
+        return state;
     }
 
     public String getZip() {
@@ -54,7 +66,6 @@ public class Contact implements Comparable<Contact> {
         return email;
     }
 
-
     public void updateContact(String address, String city, String state, String zip, String phone, String email) {
         this.address = address;
         this.city = city;
@@ -63,6 +74,27 @@ public class Contact implements Comparable<Contact> {
         this.phone = phone;
         this.email = email;
     }
+
+    
+    private boolean isValidName(String name) {
+        String nameRegex = "^[A-Z][a-z]{2,}$";
+        System.out.println(name.matches(nameRegex));
+        return name.matches(nameRegex);
+
+    }
+
+    private boolean isValidPhone(String phone) {
+        String phoneRegex = "^[0-9]{10}$";
+        System.out.println(phone.matches(phoneRegex));
+        return phone.matches(phoneRegex);
+    }
+
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
+        System.out.println(email.matches(emailRegex));
+        return email.matches(emailRegex);
+    }
+
 
     @Override
     public int compareTo(Contact other) {
@@ -76,8 +108,10 @@ public class Contact implements Comparable<Contact> {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
 
         Contact contact = (Contact) obj;
         return Objects.equals(getFname(), contact.getFname()) &&
@@ -91,10 +125,10 @@ public class Contact implements Comparable<Contact> {
 
     @Override
     public String toString() {
-        return String.format("NAME : %s %s\nADDRESS : %s\nCITY : %s\nSTATE :%s\nZIP : %s\nPHONE NUMBER : %s\nEMAIL : %s\n",
-                             fname, lname, address, city, state, zip, phone, email);
+        return String.format(
+                "NAME : %s %s\nADDRESS : %s\nCITY : %s\nSTATE :%s\nZIP : %s\nPHONE NUMBER : %s\nEMAIL : %s\n",
+                fname, lname, address, city, state, zip, phone, email);
     }
-
-    
 }
+
 

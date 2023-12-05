@@ -30,21 +30,26 @@ public class Address {
     }
 
     public void addAddress(Contact contact) {
-        if (isDuplicate(contact)) {
-            System.out.println("Duplicate entry! Contact with the same name already exists in " + name);
-            return;  
+        try {
+            if (isDuplicate(contact)) {
+                System.out.println("Duplicate entry! Contact with the same name already exists in " + name);
+                return;
+            }
+    
+            contacts.add(contact);
+            cityDictionary.computeIfAbsent(contact.getCity(), k -> new ArrayList<>()).add(contact);
+    
+            stateDictionary.computeIfAbsent(contact.getState(), k -> new ArrayList<>()).add(contact);
+    
+            cityCount.put(contact.getCity(), cityCount.getOrDefault(contact.getCity(), 0) + 1);
+    
+            stateCount.put(contact.getState(), stateCount.getOrDefault(contact.getState(), 0) + 1);
+    
+            System.out.println("Contact added successfully to " + name);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+            System.out.println("Please enter valid details as per the regex rules.");
         }
-
-        contacts.add(contact);
-        cityDictionary.computeIfAbsent(contact.getCity(), k -> new ArrayList<>()).add(contact);
-
-        stateDictionary.computeIfAbsent(contact.getState(), k -> new ArrayList<>()).add(contact);
-
-        cityCount.put(contact.getCity(), cityCount.getOrDefault(contact.getCity(), 0) + 1);
-
-        stateCount.put(contact.getState(), stateCount.getOrDefault(contact.getState(), 0) + 1);
-
-        System.out.println("Contact added successfully to " + name);
     }
 
     private boolean isDuplicate(Contact contact) {
