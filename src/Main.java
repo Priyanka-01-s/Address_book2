@@ -1,7 +1,12 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
+//import javax.management.ObjectInstance;
+
 public class Main {
+
     public static void main(String[] args) {
         System.out.println("-------WELCOME TO ADDRESS BOOK PROGRAM-------");
 
@@ -36,7 +41,17 @@ public class Main {
             }
         } while (choice != 0);
 
-        scanner.close();
+        // AddressManager addressBookManager2 = loadContactsFromFile();
+        // if (addressBookManager2 == null) {
+        //     // If not found or cannot be loaded, create a new instance
+        //     addressBookManager2 = new AddressManager();
+        // }
+
+        // // Rest of your existing main method
+
+        // // Save data to file before exiting
+        // saveAddressManager(addressBookManager2);
+        // scanner.close();
     }
 
     private static void printMainMenu() {
@@ -158,6 +173,10 @@ public class Main {
 
             Contact newContact = new Contact(fname, lname, addressStr, city, state, zip, phone, email);
             selectedAddressBook.addAddress(newContact);
+
+            saveContactToFile(newContact);
+
+            System.out.println("Contact added successfully.");
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
             System.out.println("Please enter valid details as per the regex rules.");
@@ -249,5 +268,58 @@ public class Main {
     private static void displaySortedContacts(Address selectedAddressBook) {
         selectedAddressBook.displaySorted();
     }
+
+    // private static void saveAddressManager(AddressManager addressBookManager) {
+    //     try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("address_book.txt"))) {
+    //         oos.writeObject(addressBookManager);
+    //         System.out.println("Address Manager saved successfully.");
+    //     } catch (IOException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
+
+    // private static AddressManager loadContactsFromFile() {
+    //     AddressManager addressBookManager = new AddressManager();
+    //     try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+    //         String line;
+    //         while ((line = reader.readLine()) != null) {
+    //             String[] contactData = line.split(",");
+    //             if (contactData.length == 8) {
+    //                 Contact contact = new Contact(
+    //                         contactData[0], contactData[1], contactData[2],
+    //                         contactData[3], contactData[4], contactData[5],
+    //                         contactData[6], contactData[7]
+    //                 );
+    
+    //                 // Assuming AddressManager has a method to get the address book
+    //                 Address currentAddressBook = addressBookManager.getAddress("address_book.txt");
+    
+    //                 if (currentAddressBook != null) {
+    //                     currentAddressBook.addAddress(contact);
+    //                 } else {
+    //                     System.out.println("Address book not found.");
+    //                 }
+    //             } else {
+    //                 System.out.println("Invalid data format in the file: " + line);
+    //             }
+    //         }
+    //         System.out.println("Contacts loaded from file successfully.");
+    //     } catch (IOException e) {
+    //         System.out.println("Error: " + e.getMessage());
+    //     }
+    //     return addressBookManager;
+    //}
+    private static void saveContactToFile(Contact contact) {
+        try (FileWriter writer = new FileWriter("address.txt", true)) {
+            // Append the contact information to the file
+            writer.write("Name: " + contact.getFname() + " " + contact.getLname() + "\n");
+            writer.write("Address: " + contact.getAddress() + ", " + contact.getCity() + ", " +
+                    contact.getState() + " - " + contact.getZip() + "\n");
+            writer.write("Phone: " + contact.getPhone() + ", Email: " + contact.getEmail() + "\n\n");
+        } catch (IOException e) {
+            System.out.println("Error saving contact to file: " + e.getMessage());
+        }
+    }
+    
 
 }

@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Contact implements Comparable<Contact> {
+public class Contact implements Comparable<Contact> ,Serializable{
     private String fname;
     private String lname;
     private String address;
@@ -129,6 +130,22 @@ public class Contact implements Comparable<Contact> {
                 "NAME : %s %s\nADDRESS : %s\nCITY : %s\nSTATE :%s\nZIP : %s\nPHONE NUMBER : %s\nEMAIL : %s\n",
                 fname, lname, address, city, state, zip, phone, email);
     }
+    public static Contact parseFromString(String data) {
+        String[] contactData = data.split(",");
+        
+        if (contactData.length == 8) {
+            // Assuming your Contact class has a constructor that takes all contact details
+            return new Contact(
+                    contactData[0], contactData[1], contactData[2],
+                    contactData[3], contactData[4], contactData[5],
+                    contactData[6], contactData[7]
+            );
+        } else {
+            // Handle invalid data format
+            throw new IllegalArgumentException("Invalid data format: " + data);
+        }
+    }
+    
 }
 
 

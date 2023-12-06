@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,7 +8,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-public class Address {
+public class Address implements Serializable{
     private String name;
     private Set<Contact> contacts;
     private Map<String, List<Contact>> cityDictionary;
@@ -158,4 +159,6 @@ public class Address {
             }
         }
     }
+
+    
 }

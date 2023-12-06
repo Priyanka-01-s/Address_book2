@@ -1,9 +1,10 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class AddressManager {
+class AddressManager implements Serializable{
     private Map<String, Address> addressBookManager;
 
     public AddressManager() {
@@ -43,5 +44,23 @@ class AddressManager {
     public Address getAddress(String name) {
         return addressBookManager.get(name);
     }
+    
+    // public static AddressManager parseFromString(String data) {
+    //     AddressManager addressManager = new AddressManager();
+    
+    //     // Assuming your text format is one line per contact
+    //     String[] lines = data.split("\n");
+    
+    //     for (String line : lines) {
+    //         // Assuming your Contact class has a method to create an instance from a string
+    //         Contact contact = Contact.parseFromString(line);
+    //         addressManager.addContact(contact);
+    //     }
+    
+    //     return addressManager;
+    //}
+    
+
+    
 }
 
