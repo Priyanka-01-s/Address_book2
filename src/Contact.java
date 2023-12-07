@@ -79,20 +79,20 @@ public class Contact implements Comparable<Contact> ,Serializable{
     
     private boolean isValidName(String name) {
         String nameRegex = "^[A-Z][a-z]{2,}$";
-        System.out.println(name.matches(nameRegex));
+        //System.out.println(name.matches(nameRegex));
         return name.matches(nameRegex);
 
     }
 
     private boolean isValidPhone(String phone) {
         String phoneRegex = "^[0-9]{10}$";
-        System.out.println(phone.matches(phoneRegex));
+        //System.out.println(phone.matches(phoneRegex));
         return phone.matches(phoneRegex);
     }
 
     private boolean isValidEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
-        System.out.println(email.matches(emailRegex));
+        //System.out.println(email.matches(emailRegex));
         return email.matches(emailRegex);
     }
 
