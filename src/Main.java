@@ -1,5 +1,7 @@
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
 
@@ -307,6 +309,7 @@ public class Main {
     //     }
     //     return addressBookManager;
     //}
+
     private static void saveContactToFile(Contact contact) {
         try (FileWriter writer = new FileWriter("address.txt", true)) {
             // Append the contact information to the file
@@ -318,6 +321,19 @@ public class Main {
             System.out.println("Error saving contact to file: " + e.getMessage());
         }
     }
-    
+    // private void createDirectory(String directoryPath) throws Exception {
+    //     Path directory = Paths.get(directoryPath);
+    //     if (!Files.exists(directory)) {
+    //         Files.createDirectories(directory);
+    //         System.out.println("Directory created: " + directoryPath);
+    //     } else {
+    //         System.out.println("Directory already exists: " + directoryPath);
+    //     }
+    // }
+
+    // String directoryPath = "example_directory";
+
+    //         // Specify the file path
+    //         String filePath = "example_directory\\example_file.txt";
 
 }
