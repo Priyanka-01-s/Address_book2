@@ -65,7 +65,8 @@ public class Main {
         addressBookManager.createAddressBook(newBookName);
     }
 
-    private static void operateOnExistingAddressBook(AddressManager addressBookManager, Scanner scanner) throws CsvValidationException {
+    private static void operateOnExistingAddressBook(AddressManager addressBookManager, Scanner scanner)
+            throws CsvValidationException {
         System.out.print("Enter the name of the address book to operate on: ");
         String addressBookName = scanner.next();
 
@@ -78,7 +79,8 @@ public class Main {
         }
     }
 
-    private static void operateOnAddressBook(Address selectedAddressBook, Scanner scanner) throws CsvValidationException {
+    private static void operateOnAddressBook(Address selectedAddressBook, Scanner scanner)
+            throws CsvValidationException {
         int choice;
         do {
             printAddressBookMenu(selectedAddressBook.getName());
@@ -121,6 +123,14 @@ public class Main {
                     readContactsFromCSV(selectedAddressBook, scanner);
                     break;
 
+                case 10:
+                    readContactsFromJson(selectedAddressBook, scanner);
+                    break;
+
+                case 11:
+                    writeContactsToJson(selectedAddressBook, scanner);
+                    break;
+
                 case 0:
                     System.out.println("Exiting to the main menu.");
                     break;
@@ -142,6 +152,9 @@ public class Main {
         System.out.println("7. Display sorted contacts");
         System.out.println("8. Store contacts in CSV file");
         System.out.println("9. Read data from the csv file");
+        System.out.println("10. Read contacts from JSON file");
+        System.out.println("11. Write contacts to JSON file");
+
         System.out.println("0. Exit");
     }
 
@@ -287,10 +300,23 @@ public class Main {
         selectedAddressBook.writeContactsToCSV(filePath);
     }
 
-    private static void readContactsFromCSV(Address selectedAddressBook, Scanner scanner) throws CsvValidationException {
+    private static void readContactsFromCSV(Address selectedAddressBook, Scanner scanner)
+            throws CsvValidationException {
         System.out.print("Enter the CSV file path to read contacts from: ");
         String filePath = scanner.nextLine();
         selectedAddressBook.readContactsFromCSV(filePath);
+    }
+
+    private static void readContactsFromJson(Address selectedAddressBook, Scanner scanner) {
+        System.out.print("Enter the JSON file path to read contacts from: ");
+        String filePath = scanner.nextLine();
+        selectedAddressBook.readContactsFromJson(filePath);
+    }
+
+    private static void writeContactsToJson(Address selectedAddressBook, Scanner scanner) {
+        System.out.print("Enter the JSON file path to write contacts to: ");
+        String filePath = scanner.nextLine();
+        selectedAddressBook.writeContactsToJson(filePath);
     }
 
 }
