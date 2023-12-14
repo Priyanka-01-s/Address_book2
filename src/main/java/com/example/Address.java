@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
@@ -168,6 +170,7 @@ public class Address implements Serializable {
         }
     }
 
+    //FOR CSV file
     public void writeContactsToCSV(String filePath) {
         try (CSVWriter writer = new CSVWriter(new FileWriter(filePath))) {
             for (Contact contact : contacts) {
@@ -199,6 +202,30 @@ public class Address implements Serializable {
             System.out.println("Contacts loaded successfully from the CSV file.");
         } catch (IOException e) {
             System.out.println("Error reading contacts from CSV file: " + e.getMessage());
+        }
+    }
+
+    // JSON file
+    public void writeContactsToJson(String filePath) {
+        try (FileWriter writer = new FileWriter(filePath)) {
+            Gson gson = new Gson();
+            gson.toJson(contacts, writer);
+            System.out.println("Contacts written to JSON file successfully.");
+        } catch (IOException e) {
+            System.out.println("Error writing contacts to JSON file: " + e.getMessage());
+        }
+    }
+
+    public void readContactsFromJson(String filePath) {
+        try (FileReader reader = new FileReader(filePath)) {
+            Gson gson = new Gson();
+            List<Contact> loadedContacts = gson.fromJson(reader, new TypeToken<List<Contact>>() {}.getType());
+            for (Contact contact : loadedContacts) {
+                addAddress(contact);
+            }
+            System.out.println("Contacts loaded successfully from the JSON file.");
+        } catch (IOException e) {
+            System.out.println("Error reading contacts from JSON file: " + e.getMessage());
         }
     }
 

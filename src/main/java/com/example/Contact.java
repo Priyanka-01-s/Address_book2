@@ -2,6 +2,8 @@ package com.example;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.google.gson.Gson;
+
 
 public class Contact implements Comparable<Contact> ,Serializable{
     private String fname;
@@ -166,7 +168,15 @@ public class Contact implements Comparable<Contact> ,Serializable{
         }
     }
 
-    
+    public static Contact fromJson(String json) {
+        Gson gson = new Gson();
+        return gson.fromJson(json, Contact.class);
+    }
+
+    public String toJson() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
+    }   
     
 }
 
