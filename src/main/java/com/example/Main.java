@@ -337,7 +337,7 @@ public class Main {
 
     public static void retrieveEntriesFromDb(DBOperations database){
          try{
-        List<Contact> employeePayrolls = database.getPayrollData();
+        List<Contact> employeePayrolls = database.getAddressData();
         System.out.println("-----------THE DATABASE----------------\n");
         for (Contact employeePayroll : employeePayrolls) {
         System.out.println(employeePayroll);
