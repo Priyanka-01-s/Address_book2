@@ -11,6 +11,7 @@ import java.util.List;
 
 public class DBOperations {
 
+    //getting the database connection
     public Connection getConnectivityTest() throws SQLException {
         String jdbcUrl = "jdbc:mysql://localhost:3306/ADDRESSBOOK_DB";
         String username = "root";
@@ -20,6 +21,7 @@ public class DBOperations {
         return connection;
     }
 
+    //Retrival of contacts from address book database 
     public List<Contact> getAddressData() throws ContactRetrivalException {
         List<Contact> contacts = new ArrayList<>();
 
@@ -47,6 +49,34 @@ public class DBOperations {
             return contacts;
         } catch (SQLException e) {
             throw new ContactRetrivalException("Error establishing database connection: " + e.getMessage());
+        }
+    }
+
+    //updating the values in the database
+    public void updateContactInfo(String firstName, String lastName, String newAddress, String newCity, String newState,
+                                  String newZip, String newPhone, String newEmail) throws SQLException {
+        String updateQuery = "UPDATE ADDRESSBOOK_TABLE2 SET ADDRESS=?, CITY=?, STATE=?, ZIP=?, PHONE=?, EMAIL=? " +
+                "WHERE FIRSTNAME=? AND LASTNAME=?";
+        
+        try (Connection connection = getConnectivityTest();
+             PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+
+            preparedStatement.setString(1, newAddress);
+            preparedStatement.setString(2, newCity);
+            preparedStatement.setString(3, newState);
+            preparedStatement.setString(4, newZip);
+            preparedStatement.setString(5, newPhone);
+            preparedStatement.setString(6, newEmail);
+            preparedStatement.setString(7, firstName);
+            preparedStatement.setString(8, lastName);
+
+            int rowsUpdated = preparedStatement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("Contact information updated successfully for " + firstName + " " + lastName);
+            } else {
+                System.out.println("Contact not found for " + firstName + " " + lastName);
+            }
         }
     }
 }

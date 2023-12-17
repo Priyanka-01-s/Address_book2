@@ -8,8 +8,8 @@ import java.util.Scanner;
 
 import com.opencsv.exceptions.CsvValidationException;
 
-public class Main {
 
+public class Main {
     public static void main(String[] args) throws CsvValidationException, SQLException, ContactRetrivalException {
         System.out.println("-------WELCOME TO ADDRESS BOOK PROGRAM-------");
 
@@ -41,6 +41,9 @@ public class Main {
                     retrieveEntriesFromDb(database);
                     break;
 
+                case 5:
+                    updateContact(database, scanner);
+
                 case 0:
                     System.out.println("---------THANK YOU FOR USING ADDRESS BOOK---------");
                     break;
@@ -58,6 +61,7 @@ public class Main {
         System.out.println("2. Operate on an existing address book");
         System.out.println("3. Search for a person by city");
         System.out.println("4. View contacts from database");
+        System.out.println("5. Update contact in the database");
         System.out.println("0. Exit");
     }
 
@@ -141,6 +145,12 @@ public class Main {
                     writeContactsToJson(selectedAddressBook, scanner);
                     break;
 
+                // case 12:
+                //     retrieveEntriesFromDb(database);
+                //     break;
+
+                
+
                 case 0:
                     System.out.println("Exiting to the main menu.");
                     break;
@@ -166,6 +176,7 @@ public class Main {
         System.out.println("10. Read contacts from JSON file");
         System.out.println("11. Write contacts to JSON file");
         System.out.println("12. Read values from the database");
+        System.out.println("13. Update contact in the database");
 
         System.out.println("0. Exit");
     }
@@ -347,6 +358,45 @@ public class Main {
         }
 
     }
+
+    private static void updateContact(DBOperations dbOperations, Scanner scanner) {
+        // Get user input for first name and last name
+        System.out.print("Enter the first name: ");
+        String firstName = scanner.nextLine();
+
+        System.out.print("Enter the last name: ");
+        String lastName = scanner.nextLine();
+
+        // Get updated contact information from the user
+        System.out.println("Enter the updated contact information:");
+
+        System.out.print("Enter address: ");
+        String address = scanner.nextLine();
+
+        System.out.print("Enter city: ");
+        String city = scanner.nextLine();
+
+        System.out.print("Enter state: ");
+        String state = scanner.nextLine();
+
+        System.out.print("Enter zip: ");
+        String zip = scanner.nextLine();
+
+        System.out.print("Enter phone number: ");
+        String phone = scanner.nextLine();
+
+        System.out.print("Enter email: ");
+        String email = scanner.nextLine();
+
+        // Call the updateContactInfo method with user input
+        try {
+            dbOperations.updateContactInfo(firstName, lastName, address, city, state, zip, phone, email);
+            System.out.println("Contact information updated successfully!");
+        } catch (SQLException e) {
+            System.out.println("Error updating contact information: " + e.getMessage());
+        }
+    }
 }
+
 
 
