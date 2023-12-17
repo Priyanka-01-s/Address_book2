@@ -44,6 +44,9 @@ public class Main {
                 case 5:
                     updateContact(database, scanner);
 
+                case 6:
+                    viewBycityState(database, scanner);
+
                 case 0:
                     System.out.println("---------THANK YOU FOR USING ADDRESS BOOK---------");
                     break;
@@ -360,14 +363,13 @@ public class Main {
     }
 
     private static void updateContact(DBOperations dbOperations, Scanner scanner) {
-        // Get user input for first name and last name
         System.out.print("Enter the first name: ");
         String firstName = scanner.nextLine();
 
         System.out.print("Enter the last name: ");
         String lastName = scanner.nextLine();
 
-        // Get updated contact information from the user
+        //updated contact information from the user
         System.out.println("Enter the updated contact information:");
 
         System.out.print("Enter address: ");
@@ -387,14 +389,32 @@ public class Main {
 
         System.out.print("Enter email: ");
         String email = scanner.nextLine();
-
-        // Call the updateContactInfo method with user input
         try {
             dbOperations.updateContactInfo(firstName, lastName, address, city, state, zip, phone, email);
             System.out.println("Contact information updated successfully!");
         } catch (SQLException e) {
             System.out.println("Error updating contact information: " + e.getMessage());
         }
+    }
+
+    private static void viewBycityState(DBOperations dbOperations, Scanner scanner) throws ContactRetrivalException{
+
+        System.out.println("Enter the city you want to view");
+        String city = scanner.nextLine();
+        System.out.println("Enter the state you want to view");
+        String state = scanner.nextLine();
+
+        try{
+            List<Contact> employeePayrolls = dbOperations.getContactsByCity(city,state);
+        for (Contact employeePayroll : employeePayrolls) {
+        System.out.println(employeePayroll);
+        }
+            
+        }catch(ContactRetrivalException e){
+            System.out.println("Error in retrival"+e.getMessage());
+        }
+
+
     }
 }
 

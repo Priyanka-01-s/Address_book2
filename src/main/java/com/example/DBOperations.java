@@ -79,4 +79,37 @@ public class DBOperations {
             }
         }
     }
+
+    public List<Contact> getContactsByCity(String city, String state) throws ContactRetrivalException{
+        List<Contact> contacts = new ArrayList<>();
+
+        try (Connection connection = getConnectivityTest()) {
+            String query = "SELECT * FROM addressbook_table2 WHERE CITY=? OR STATE=?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, city);
+                preparedStatement.setString(2, state);
+                
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String fname = resultSet.getString("FIRSTNAME");
+                        String lname = resultSet.getString("LASTNAME");
+                        String address = resultSet.getString("ADDRESS");
+                        String zip = resultSet.getString("ZIP");
+                        String phone = resultSet.getString("PHONE");
+                        String email = resultSet.getString("EMAIL");
+
+                        Contact contact = new Contact(fname, lname, address, city, state, zip, phone, email);
+                        contacts.add(contact);
+                    }
+                }
+            } catch (SQLException e) {
+                throw new ContactRetrivalException("Error retrieving contacts by city: " + e.getMessage());
+            }
+        } catch (SQLException e) {
+            throw new ContactRetrivalException("Error establishing database connection: " + e.getMessage());
+        }
+
+        return contacts;
+    }
 }
