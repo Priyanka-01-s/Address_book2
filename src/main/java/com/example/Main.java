@@ -2,6 +2,7 @@ package com.example;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,11 +10,14 @@ import com.opencsv.exceptions.CsvValidationException;
 
 public class Main {
 
-    public static void main(String[] args) throws CsvValidationException {
+    public static void main(String[] args) throws CsvValidationException, SQLException, ContactRetrivalException {
         System.out.println("-------WELCOME TO ADDRESS BOOK PROGRAM-------");
 
         AddressManager addressBookManager = new AddressManager();
         Scanner scanner = new Scanner(System.in);
+
+        DBOperations database = new DBOperations();
+        database.getConnectivityTest();
 
         int choice;
         do {
@@ -33,6 +37,10 @@ public class Main {
                     searchByCity(addressBookManager, scanner);
                     break;
 
+                case 4:
+                    retrieveEntriesFromDb(database);
+                    break;
+
                 case 0:
                     System.out.println("---------THANK YOU FOR USING ADDRESS BOOK---------");
                     break;
@@ -49,6 +57,7 @@ public class Main {
         System.out.println("1. Create a new address book");
         System.out.println("2. Operate on an existing address book");
         System.out.println("3. Search for a person by city");
+        System.out.println("4. View contacts from database");
         System.out.println("0. Exit");
     }
 
@@ -59,7 +68,8 @@ public class Main {
         return choice;
     }
 
-    private static void createAddressBook(AddressManager addressBookManager, Scanner scanner) {
+    private static void createAddressBook(AddressManager addressBookManager,
+            Scanner scanner) {
         System.out.print("Enter the name of the new address book: ");
         String newBookName = scanner.next();
         addressBookManager.createAddressBook(newBookName);
@@ -142,7 +152,8 @@ public class Main {
     }
 
     private static void printAddressBookMenu(String addressBookName) {
-        System.out.println("---------ADDRESS BOOK OPERATIONS - " + addressBookName + "---------");
+        System.out.println("---------ADDRESS BOOK OPERATIONS - " + addressBookName +
+                "---------");
         System.out.println("1. Add a new contact");
         System.out.println("2. Edit an existing contact");
         System.out.println("3. Delete a contact");
@@ -154,6 +165,7 @@ public class Main {
         System.out.println("9. Read data from the csv file");
         System.out.println("10. Read contacts from JSON file");
         System.out.println("11. Write contacts to JSON file");
+        System.out.println("12. Read values from the database");
 
         System.out.println("0. Exit");
     }
@@ -184,7 +196,8 @@ public class Main {
             System.out.print("Enter email: ");
             String email = scanner.nextLine();
 
-            Contact newContact = new Contact(fname, lname, addressStr, city, state, zip, phone, email);
+            Contact newContact = new Contact(fname, lname, addressStr, city, state, zip,
+                    phone, email);
             selectedAddressBook.addAddress(newContact);
 
             saveContactToFile(newContact);
@@ -285,10 +298,13 @@ public class Main {
     private static void saveContactToFile(Contact contact) {
         try (FileWriter writer = new FileWriter("address.txt", true)) {
             // Append the contact information to the file
-            writer.write("Name: " + contact.getFname() + " " + contact.getLname() + "\n");
-            writer.write("Address: " + contact.getAddress() + ", " + contact.getCity() + ", " +
+            writer.write("Name: " + contact.getFname() + " " + contact.getLname() +
+                    "\n");
+            writer.write("Address: " + contact.getAddress() + ", " + contact.getCity() +
+                    ", " +
                     contact.getState() + " - " + contact.getZip() + "\n");
-            writer.write("Phone: " + contact.getPhone() + ", Email: " + contact.getEmail() + "\n\n");
+            writer.write("Phone: " + contact.getPhone() + ", Email: " +
+                    contact.getEmail() + "\n\n");
         } catch (IOException e) {
             System.out.println("Error saving contact to file: " + e.getMessage());
         }
@@ -319,4 +335,18 @@ public class Main {
         selectedAddressBook.writeContactsToJson(filePath);
     }
 
+    public static void retrieveEntriesFromDb(DBOperations database){
+         try{
+        List<Contact> employeePayrolls = database.getPayrollData();
+        System.out.println("-----------THE DATABASE----------------\n");
+        for (Contact employeePayroll : employeePayrolls) {
+        System.out.println(employeePayroll);
+        }
+        } catch ( ContactRetrivalException e) {
+        e.printStackTrace();
+        }
+
+    }
 }
+
+
