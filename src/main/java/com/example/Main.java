@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 import com.opencsv.exceptions.CsvValidationException;
 
-
 public class Main {
     public static void main(String[] args) throws CsvValidationException, SQLException, ContactRetrivalException {
         System.out.println("-------WELCOME TO ADDRESS BOOK PROGRAM-------");
@@ -47,6 +46,9 @@ public class Main {
                 case 6:
                     viewBycityState(database, scanner);
 
+                case 7:
+                    addContactDatabase(database, scanner);
+
                 case 0:
                     System.out.println("---------THANK YOU FOR USING ADDRESS BOOK---------");
                     break;
@@ -65,6 +67,8 @@ public class Main {
         System.out.println("3. Search for a person by city");
         System.out.println("4. View contacts from database");
         System.out.println("5. Update contact in the database");
+        System.out.println("6. View contact with city or state name");
+        System.out.println("7. Add new contact to the database");
         System.out.println("0. Exit");
     }
 
@@ -149,10 +153,8 @@ public class Main {
                     break;
 
                 // case 12:
-                //     retrieveEntriesFromDb(database);
-                //     break;
-
-                
+                // retrieveEntriesFromDb(database);
+                // break;
 
                 case 0:
                     System.out.println("Exiting to the main menu.");
@@ -349,15 +351,15 @@ public class Main {
         selectedAddressBook.writeContactsToJson(filePath);
     }
 
-    public static void retrieveEntriesFromDb(DBOperations database){
-         try{
-        List<Contact> employeePayrolls = database.getAddressData();
-        System.out.println("-----------THE DATABASE----------------\n");
-        for (Contact employeePayroll : employeePayrolls) {
-        System.out.println(employeePayroll);
-        }
-        } catch ( ContactRetrivalException e) {
-        e.printStackTrace();
+    public static void retrieveEntriesFromDb(DBOperations database) {
+        try {
+            List<Contact> employeePayrolls = database.getAddressData();
+            System.out.println("-----------THE DATABASE----------------\n");
+            for (Contact employeePayroll : employeePayrolls) {
+                System.out.println(employeePayroll);
+            }
+        } catch (ContactRetrivalException e) {
+            e.printStackTrace();
         }
 
     }
@@ -369,7 +371,7 @@ public class Main {
         System.out.print("Enter the last name: ");
         String lastName = scanner.nextLine();
 
-        //updated contact information from the user
+        // updated contact information from the user
         System.out.println("Enter the updated contact information:");
 
         System.out.print("Enter address: ");
@@ -397,26 +399,47 @@ public class Main {
         }
     }
 
-    private static void viewBycityState(DBOperations dbOperations, Scanner scanner) throws ContactRetrivalException{
+    private static void viewBycityState(DBOperations dbOperations, Scanner scanner) throws ContactRetrivalException {
 
         System.out.println("Enter the city you want to view");
         String city = scanner.nextLine();
         System.out.println("Enter the state you want to view");
         String state = scanner.nextLine();
 
-        try{
-            List<Contact> employeePayrolls = dbOperations.getContactsByCity(city,state);
-        for (Contact employeePayroll : employeePayrolls) {
-        System.out.println(employeePayroll);
-        }
-            
-        }catch(ContactRetrivalException e){
-            System.out.println("Error in retrival"+e.getMessage());
-        }
+        try {
+            List<Contact> employeePayrolls = dbOperations.getContactsByCity(city, state);
+            for (Contact employeePayroll : employeePayrolls) {
+                System.out.println(employeePayroll);
+            }
 
+        } catch (ContactRetrivalException e) {
+            System.out.println("Error in retrival" + e.getMessage());
+        }
+    }
 
+    private static void addContactDatabase(DBOperations dbOperations, Scanner scanner) {
+
+        System.out.print("Enter first name: ");
+        String firstName = scanner.nextLine();
+        System.out.print("Enter last name: ");
+        String lastName = scanner.nextLine();
+        System.out.print("Enter address: ");
+        String address = scanner.nextLine();
+        System.out.print("Enter city: ");
+        String city = scanner.nextLine();
+        System.out.print("Enter state: ");
+        String state = scanner.nextLine();
+        System.out.print("Enter zip: ");
+        String zip = scanner.nextLine();
+        System.out.print("Enter phone number: ");
+        String phone = scanner.nextLine();
+        System.out.print("Enter email: ");
+        String email = scanner.nextLine();
+        Contact newContact = new Contact(firstName, lastName, address, city, state, zip, phone, email);
+        try {
+            dbOperations.addContact(newContact);
+        } catch (SQLException e) {
+            System.out.println("Error adding contact to the database: " + e.getMessage());
+        } 
     }
 }
-
-
-

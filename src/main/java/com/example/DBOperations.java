@@ -80,6 +80,7 @@ public class DBOperations {
         }
     }
 
+    //viewing contacts as per city or state
     public List<Contact> getContactsByCity(String city, String state) throws ContactRetrivalException{
         List<Contact> contacts = new ArrayList<>();
 
@@ -111,5 +112,32 @@ public class DBOperations {
         }
 
         return contacts;
+    }
+
+    //inserting new data to the database
+    public void addContact(Contact newContact) throws SQLException {
+        String insertQuery = "INSERT INTO addressbook_table2 (FIRSTNAME, LASTNAME, ADDRESS, CITY, STATE, ZIP, PHONE, EMAIL) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        try (Connection connection = getConnectivityTest();
+             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+
+            preparedStatement.setString(1, newContact.getFname());
+            preparedStatement.setString(2, newContact.getLname());
+            preparedStatement.setString(3, newContact.getAddress());
+            preparedStatement.setString(4, newContact.getCity());
+            preparedStatement.setString(5, newContact.getState());
+            preparedStatement.setString(6, newContact.getZip());
+            preparedStatement.setString(7, newContact.getPhone());
+            preparedStatement.setString(8, newContact.getEmail());
+
+            int rowsInserted = preparedStatement.executeUpdate();
+
+            if (rowsInserted > 0) {
+                System.out.println("Contact added successfully to the database!");
+            } else {
+                System.out.println("Failed to add contact to the database.");
+            }
+        }
     }
 }
